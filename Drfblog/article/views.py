@@ -1,12 +1,16 @@
 
 from rest_framework import generics
 from rest_framework import mixins
+from rest_framework.permissions import IsAdminUser
 
 from article.models import Article
 from article.serializers import ArticleListSerializer, ArticleDetailSerializer
 
 
 class ArticleList(generics.ListCreateAPIView):
+
+    permission_classes = [IsAdminUser]  # 在此添加权限控制
+
     queryset = Article.objects.all()
     serializer_class = ArticleListSerializer
 
