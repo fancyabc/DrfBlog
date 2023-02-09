@@ -1,6 +1,7 @@
 from django.db import models
 from django.utils import timezone
 from django.contrib.auth.models import User
+from markdown import Markdown
 
 # Create your models here.
 
@@ -56,5 +57,18 @@ class Article(models.Model):
 
     class Meta:
         ordering = ['-created']
+
+    # 将 body 转换为带 html 标签的正文
+    def get_md(self):
+        md = Markdown(
+            extensions=[
+                'markdown.extensions.extra',
+                'markdown.extensions.codehilite',
+                'markdown.extensions.toc',
+            ]
+        )
+        md_body = md.convert(self.body)
+        # toc 是渲染后的目录
+        return md_body, md.toc
 
 
