@@ -5,7 +5,7 @@ from rest_framework import mixins
 from utils.permissions import IsAdminUserOrReadOnly
 
 from article.models import Article
-from article.serializers import ArticleListSerializer, ArticleDetailSerializer
+from article.serializers.article import ArticleListSerializer, ArticleDetailSerializer
 
 
 class ArticleList(generics.ListCreateAPIView):
