@@ -9,11 +9,13 @@ class ArticleListSerializer(serializers.ModelSerializer):
     """文章列表序列化器"""
 
     author = UserDescSerializer(read_only=True)     # 只读参数
+    url = serializers.HyperlinkedIdentityField(view_name="article:detail")  # 增加超链接字段
 
     class Meta:
         model = Article
         fields = [
-            'id',
+            # 'id',
+            'url',
             'title',
             'created',
             'author',
