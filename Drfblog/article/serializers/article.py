@@ -27,10 +27,38 @@ class ArticleBaseSerializer(serializers.HyperlinkedModelSerializer):
         required=False
     )
 
+    # 自定义错误信息
+    default_error_messages = {
+        'incorrect_avatar_id': 'Avatar with id {value} not exists.',
+        'incorrect_category_id': 'Category with id {value} not exists.',
+        'default': 'No more message here..'
+    }
+
+    def check_obj_exists_or_fail(self, model, value, message='default'):
+        if not self.default_error_messages.get(message, None):
+            message = 'default'
+
+        if not model.objects.filter(id=value).exists() and value is not None:
+            self.fail(message, value=value)
+
     # category_id 字段的验证器
     def validate_category_id(self, value):
-        if not Category.objects.filter(id=value).exists() and value is not None:
-            raise serializers.ValidationError("Category with id {} not exists.".format(value))
+        self.check_obj_exists_or_fail(
+            model=Category,
+            value=value,
+            message='incorrect_category_id'
+        )
+
+        return value
+
+    def validate_avatar_id(self, value):
+        """验证图片 id 是否存在,不存在则返回验证错误"""
+        self.check_obj_exists_or_fail(
+            model=Avatar,
+            value=value,
+            message='incorrect_avatar_id'
+        )
+
         return value
 
     def to_internal_value(self, data):
@@ -42,13 +70,6 @@ class ArticleBaseSerializer(serializers.HyperlinkedModelSerializer):
                     Tag.objects.create(text=text)
 
         return super().to_internal_value(data)
-
-    def validate_avatar_id(self, value):
-        """验证图片 id 是否存在,不存在则返回验证错误"""
-        if not Avatar.objects.filter(id=value).exists() and value is not None:
-            raise serializers.ValidationError("Avatar with id {} not exists.".format(value))
-
-        return value
 
 
 class ArticleSerializer(ArticleBaseSerializer):
