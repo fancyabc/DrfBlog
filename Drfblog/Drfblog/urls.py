@@ -17,6 +17,7 @@ from django.contrib import admin
 from django.urls import path, include
 from rest_framework.routers import DefaultRouter
 from article.views import article, category, tag, avatar
+from comment.views import CommentViewSet
 
 
 router = DefaultRouter()
@@ -24,6 +25,7 @@ router.register(r'article', viewset=article.ArticleViewSet)
 router.register(r'category', viewset=category.CategoryViewSet)
 router.register(r'tag', viewset=tag.TagViewSet)
 router.register(r'avatar', viewset=avatar.AvatarViewSet)
+router.register(r'comment', viewset=CommentViewSet)
 
 
 urlpatterns = [

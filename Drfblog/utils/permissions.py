@@ -14,3 +14,21 @@ class IsAdminUserOrReadOnly(permissions.BasePermission):
 
         # 仅管理员可进行其他操作
         return request.user.is_superuser
+
+
+class IsOwnerOrReadOnly(permissions.BasePermission):
+    """自定义一个所有人都可查看、仅本人可更改的权限"""
+
+    message = 'You must be the owner to update.'
+
+    def has_permission(self, request, view):
+        if request.method in permissions.SAFE_METHODS:
+            return True
+
+        return request.user.is_authenticated
+
+    def has_object_permission(self, request, view, obj):
+        if request.method in permissions.SAFE_METHODS:
+            return True
+
+        return obj.author == request.user

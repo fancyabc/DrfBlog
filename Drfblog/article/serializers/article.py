@@ -5,6 +5,7 @@ from article.models import Article, Category, Tag, Avatar
 from .user_info import UserDescSerializer
 from .category import CategorySerializer
 from .avatar import AvatarSerializer
+from comment.serializers import CommentSerializer
 
 
 class ArticleBaseSerializer(serializers.HyperlinkedModelSerializer):
@@ -81,8 +82,10 @@ class ArticleSerializer(ArticleBaseSerializer):
 
 
 class ArticleDetailSerializer(ArticleBaseSerializer):
+    id = serializers.IntegerField(read_only=True)
     body_html = serializers.SerializerMethodField()
     toc_html = serializers.SerializerMethodField()
+    comments = CommentSerializer(many=True, read_only=True)
 
     def get_body_html(self, obj):
         return obj.get_md()[0]
