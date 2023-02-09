@@ -1,7 +1,8 @@
 
 from rest_framework import generics
 from rest_framework import mixins
-from rest_framework.permissions import IsAdminUser
+
+from utils.permissions import IsAdminUserOrReadOnly
 
 from article.models import Article
 from article.serializers import ArticleListSerializer, ArticleDetailSerializer
@@ -9,7 +10,7 @@ from article.serializers import ArticleListSerializer, ArticleDetailSerializer
 
 class ArticleList(generics.ListCreateAPIView):
 
-    permission_classes = [IsAdminUser]  # 在此添加权限控制
+    permission_classes = [IsAdminUserOrReadOnly]  # 在此添加权限控制
 
     queryset = Article.objects.all()
     serializer_class = ArticleListSerializer
@@ -20,6 +21,9 @@ class ArticleDetail(mixins.RetrieveModelMixin,
                     mixins.DestroyModelMixin,
                     generics.GenericAPIView):
     """文章详情视图"""
+
+    permission_classes = [IsAdminUserOrReadOnly]  # 在此添加权限控制
+
     queryset = Article.objects.all()
     serializer_class = ArticleDetailSerializer
     
