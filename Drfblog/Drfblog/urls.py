@@ -16,12 +16,15 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 from rest_framework.routers import DefaultRouter
-from article.views import article, category, tag
+from article.views import article, category, tag, avatar
+
 
 router = DefaultRouter()
 router.register(r'article', viewset=article.ArticleViewSet)
 router.register(r'category', viewset=category.CategoryViewSet)
 router.register(r'tag', viewset=tag.TagViewSet)
+router.register(r'avatar', viewset=avatar.AvatarViewSet)
+
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -30,3 +33,9 @@ urlpatterns = [
     path('api/', include(router.urls)),    # drf 默认路由器自动注册
 
 ]
+
+from django.conf import settings
+from django.conf.urls.static import static
+
+if settings.DEBUG:
+    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
