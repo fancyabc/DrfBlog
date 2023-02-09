@@ -20,5 +20,5 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('api-auth/', include('rest_framework.urls')),  # 可视化接口
     
-    path('api/articles/', include('article.urls', namespace='article')),
+    path('api/article/', include('article.urls', namespace='article')),
 ]

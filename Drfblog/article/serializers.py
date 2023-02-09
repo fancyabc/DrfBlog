@@ -12,3 +12,10 @@ class ArticleListSerializer(serializers.ModelSerializer):
             'title',
             'created',
         ]
+
+
+class ArticleDetailSerializer(serializers.ModelSerializer):
+    """文章详情序列化器"""
+    class Meta:
+        model = Article
+        fields = '__all__'  # 使用所有字段
