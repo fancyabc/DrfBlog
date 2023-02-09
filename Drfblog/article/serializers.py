@@ -11,7 +11,9 @@ class ArticleListSerializer(serializers.ModelSerializer):
             'id',
             'title',
             'created',
+            'author',
         ]
+        read_only_fields = ['author']
 
 
 class ArticleDetailSerializer(serializers.ModelSerializer):

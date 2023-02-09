@@ -15,6 +15,9 @@ class ArticleList(generics.ListCreateAPIView):
     queryset = Article.objects.all()
     serializer_class = ArticleListSerializer
 
+    def perform_create(self, serializer):
+        serializer.save(author=self.request.user)   # 从Request中提取用户信息，将额外信息保存
+
 
 class ArticleDetail(mixins.RetrieveModelMixin,
                     mixins.UpdateModelMixin,
