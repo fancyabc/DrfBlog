@@ -21,6 +21,15 @@ class Comment(models.Model):
         related_name='comments'
     )
 
+    # 多级评论，让评论模型和自身相关联，使其可以有一个父级。
+    comment_p = models.ForeignKey(
+        'self',
+        null=True,
+        blank=True,
+        on_delete=models.SET_NULL,
+        related_name='comment_s'
+    )
+
     class Meta:
         ordering = ['-created']
 
