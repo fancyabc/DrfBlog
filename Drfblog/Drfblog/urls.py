@@ -19,7 +19,7 @@ from rest_framework.routers import DefaultRouter
 
 from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView
 
-from article.views import article, category, tag, avatar
+from article.views import article, category, tag, avatar, user_info
 from comment.views import CommentViewSet
 
 
@@ -29,6 +29,7 @@ router.register(r'category', viewset=category.CategoryViewSet)
 router.register(r'tag', viewset=tag.TagViewSet)
 router.register(r'avatar', viewset=avatar.AvatarViewSet)
 router.register(r'comment', viewset=CommentViewSet)
+router.register(r'user', viewset=user_info.UserViewSet)
 
 
 urlpatterns = [

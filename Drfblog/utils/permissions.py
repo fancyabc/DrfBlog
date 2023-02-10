@@ -32,3 +32,13 @@ class IsOwnerOrReadOnly(permissions.BasePermission):
             return True
 
         return obj.author == request.user
+
+
+class IsSelfOrReadOnly(permissions.BasePermission):
+    """确保非安全方法只能由本人操作"""
+
+    def has_object_permission(self, request, view, obj):
+        if request.method in permissions.SAFE_METHODS:
+            return True
+
+        return obj == request.user
